@@ -76,43 +76,43 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define :lumenvox do |lumenvox|
-    domain = "lumenvox.local-dev.mojolingo.com"
-    ip     = "10.203.175.14"
-
-    lumenvox.vm.box = 'chef/centos-6.6'
-    lumenvox.vm.network :private_network, ip: ip
-    lumenvox.vm.network :public_network, ip: '192.168.2.2', bridge: 'br4: Ethernet Thunderbolt'
-    lumenvox.vm.hostname = domain
-
-    lumenvox.vm.provider :virtualbox do |vb|
-      #vb.gui = true
-      vb.name = "TDB-lumenvox"
-      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-    end
-
-    lumenvox.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "cookbooks"
-      chef.data_bags_path = "data_bags"
-      chef.roles_path     = "roles"
-
-      chef.add_role "lumenvox"
-
-      chef.log_level = :info
-
-      chef.json = {
-        'lumenvox' => {
-          'media_server' => {
-            'mrcp_server_ip' => ip
-          },
-          'client' => {
-            'authentication_username' => ENV['LUMENVOX_USERNAME'],
-            'authentication_password' => ENV['LUMENVOX_PASSWORD'],
-          }
-        }
-      }
-    end
-  end
+  # config.vm.define :lumenvox do |lumenvox|
+  #   domain = "lumenvox.local-dev.mojolingo.com"
+  #   ip     = "10.203.175.14"
+  #
+  #   lumenvox.vm.box = 'chef/centos-6.6'
+  #   lumenvox.vm.network :private_network, ip: ip
+  #   lumenvox.vm.network :public_network, ip: '192.168.2.2', bridge: 'br4: Ethernet Thunderbolt'
+  #   lumenvox.vm.hostname = domain
+  #
+  #   lumenvox.vm.provider :virtualbox do |vb|
+  #     #vb.gui = true
+  #     vb.name = "TDB-lumenvox"
+  #     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+  #   end
+  #
+  #   lumenvox.vm.provision :chef_solo do |chef|
+  #     chef.cookbooks_path = "cookbooks"
+  #     chef.data_bags_path = "data_bags"
+  #     chef.roles_path     = "roles"
+  #
+  #     chef.add_role "lumenvox"
+  #
+  #     chef.log_level = :info
+  #
+  #     chef.json = {
+  #       'lumenvox' => {
+  #         'media_server' => {
+  #           'mrcp_server_ip' => ip
+  #         },
+  #         'client' => {
+  #           'authentication_username' => ENV['LUMENVOX_USERNAME'],
+  #           'authentication_password' => ENV['LUMENVOX_PASSWORD'],
+  #         }
+  #       }
+  #     }
+  #   end
+  # end
 
   config.vm.define :loadtest do |loadtest|
     loadtest.vm.network :private_network, ip: '10.203.175.15'
